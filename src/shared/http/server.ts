@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import routes from './routes';
 import AppError from '../errors/AppError';
+import '@shared/typeorm';
 
 const app = express();
 
