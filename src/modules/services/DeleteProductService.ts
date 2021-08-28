@@ -5,8 +5,9 @@ import AppError from '../../shared/errors/AppError';
 interface IRequest {
   id: string;
 }
-class ShowProductService {
-  async execute({ id }: IRequest): Promise<Product> {
+
+class DeleteProductService {
+  async execute({ id }: IRequest): Promise<void> {
     const productsRepository = getRepository(Product);
 
     const product = await productsRepository.findOne(id);
@@ -15,8 +16,8 @@ class ShowProductService {
       throw new AppError('Product does not exists!');
     }
 
-    return product;
+    await productsRepository.remove(product);
   }
 }
 
-export default ShowProductService;
+export default DeleteProductService;
