@@ -25,8 +25,6 @@ class Product {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  constructor() {}
 }
 
 export default Product;
