@@ -19,7 +19,7 @@ class ProductsController {
 
     const showProductService = new ShowProductService();
 
-    const product = showProductService.execute({ id });
+    const product = await showProductService.execute({ id });
 
     return response.json(product);
   }
