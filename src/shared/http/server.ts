@@ -26,4 +26,7 @@ app.use((error: Error, request: Request, response: Response) => {
   });
 });
 
-app.listen(3333);
+app.listen(3333, () => {
+  // eslint-disable-next-line no-console
+  console.log('Server is running');
+});
