@@ -1,6 +1,6 @@
 import ProductsRepository from '@modules/products/typeorm/repositories/ProductsRepository';
 import { getCustomRepository } from 'typeorm';
-import Product from '../products/typeorm/entities/Product';
+import Product from '../typeorm/entities/Product';
 
 class ListProductService {
   async execute(): Promise<Product[]> {
