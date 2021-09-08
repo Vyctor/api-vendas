@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "docker-compose": "docker-compose up -d"
+    "docker-compose": "docker-compose up -d",
+    "create-migration": "ts-node-dev ./node_modules/typeorm/cli.js migration:create -n"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
