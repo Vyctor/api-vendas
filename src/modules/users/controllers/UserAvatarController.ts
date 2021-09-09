@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import CreateUserService from '../services/CreateUserService';
-import ListAllUsersService from '../services/ListAllUsersService';
 import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 class UserAvatarController {
