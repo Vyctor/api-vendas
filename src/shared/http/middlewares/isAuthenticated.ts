@@ -3,6 +3,12 @@ import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
+interface ITokenPayload {
+  iat: number;
+  exp: number;
+  sub: string;
+}
+
 function isAuthenticated(
   request: Request,
   response: Response,
@@ -17,7 +23,12 @@ function isAuthenticated(
   const [, token] = authHeader.split(' ');
 
   try {
-    verify(token, auth.jwt.secret);
+    const { sub } = verify(token, auth.jwt.secret) as ITokenPayload;
+
+    request.user = {
+      id: sub,
+    };
+
     return nextFunction();
   } catch (error) {
     throw new AppError('Invalid JWT!');
