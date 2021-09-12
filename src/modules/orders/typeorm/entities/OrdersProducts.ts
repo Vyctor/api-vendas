@@ -8,7 +8,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Order from './Order';
-import Customer from '../../../customers/typeorm/entities/Customer';
 import Product from '../../../products/typeorm/entities/Product';
 
 @Entity('orders_products')
