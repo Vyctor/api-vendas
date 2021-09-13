@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import upload from '@config/upload';
+
 class DiskStorageProvider {
   public async saveFile(file: string): Promise<string> {
     await fs.promises.rename(
