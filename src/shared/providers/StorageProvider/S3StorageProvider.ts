@@ -3,7 +3,7 @@ import fs from 'fs';
 import mime from 'mime';
 import path from 'path';
 
-import upload from '@config/upload';
+import uploadConfig from '@config/upload';
 
 class S3StorageProvider {
   private client: S3;
@@ -15,7 +15,7 @@ class S3StorageProvider {
   }
 
   public async saveFile(file: string): Promise<string> {
-    const originalPath = path.resolve(upload.tempFolder, file);
+    const originalPath = path.resolve(uploadConfig.tempFolder, file);
 
     const contentType = mime.extension(originalPath);
 
@@ -27,7 +27,7 @@ class S3StorageProvider {
 
     await this.client
       .putObject({
-        Bucket: upload.awsS3Config.aws.bucket,
+        Bucket: uploadConfig.awsS3Config.aws.bucket,
         Key: file,
         ACL: 'public-read',
         Body: fileContent,
@@ -43,7 +43,7 @@ class S3StorageProvider {
   public async deleteFile(file: string): Promise<void> {
     await this.client
       .deleteObject({
-        Bucket: upload.awsS3Config.aws.bucket,
+        Bucket: uploadConfig.awsS3Config.aws.bucket,
         Key: file,
       })
       .promise();

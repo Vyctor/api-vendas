@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 
-import upload from '@config/upload';
+import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
 import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
@@ -23,7 +23,7 @@ class UpdateUserAvatarService {
       throw new AppError('User does not exists!');
     }
 
-    if (upload.driver === 's3') {
+    if (uploadConfig.driver === 's3') {
       const s3storageProvider = new S3StorageProvider();
 
       if (user.avatar) {

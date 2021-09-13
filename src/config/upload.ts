@@ -19,7 +19,7 @@ interface IUploadConfig {
 const uploadFolder = path.resolve(__dirname, '..', '..', 'uploads');
 const tempFolder = path.resolve(__dirname, '..', '..', 'temp');
 
-export default {
+const uploadConfig = {
   directory: uploadFolder,
   tempFolder,
   multer: {
@@ -38,3 +38,5 @@ export default {
     },
   },
 } as IUploadConfig;
+
+export default uploadConfig;

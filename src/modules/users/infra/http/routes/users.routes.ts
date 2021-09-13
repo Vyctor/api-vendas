@@ -2,7 +2,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 
-import upload from '@config/upload';
+import uploadConfig from '@config/upload';
 import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
 import UserAvatarController from '../controllers/UserAvatarController';
@@ -12,7 +12,7 @@ const usersRouter = Router();
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 
-const uploadMulter = multer(upload.multer);
+const uploadMulter = multer(uploadConfig.multer);
 
 usersRouter.get('/', isAuthenticated, usersController.index);
 

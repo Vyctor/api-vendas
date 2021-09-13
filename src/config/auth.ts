@@ -1,6 +1,8 @@
-export default {
+const authConfig = {
   jwt: {
-    secret: process.env.APP_JWT_SECRET,
-    expiresIn: '1d',
+    secretToken: process.env.APP_JWT_SECRET,
+    expiresInToken: '15m',
   },
 };
+
+export default authConfig;

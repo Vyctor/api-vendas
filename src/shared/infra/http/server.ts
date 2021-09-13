@@ -7,7 +7,7 @@ import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import { pagination } from 'typeorm-pagination';
 
-import upload from '@config/upload';
+import uploadConfig from '@config/upload';
 
 import AppError from '../../errors/AppError';
 import '@shared/infra/typeorm';
@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(rateLimiter);
 app.use(pagination);
-app.use('/files', express.static(upload.directory));
+app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 app.use(errors());
 

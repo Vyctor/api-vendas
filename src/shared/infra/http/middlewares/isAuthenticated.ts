@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
-import auth from '@config/auth';
+import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 
 interface ITokenPayload {
@@ -20,7 +20,7 @@ function isAuthenticated(request: Request, response: Response, nextFunction: Nex
   const [, token] = authHeader.split(' ');
 
   try {
-    const { sub } = verify(token, auth.jwt.secret) as ITokenPayload;
+    const { sub } = verify(token, authConfig.jwt.secretToken) as ITokenPayload;
 
     request.user = {
       id: sub,

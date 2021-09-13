@@ -7,7 +7,7 @@ interface ICacheConfig {
   driver: string;
 }
 
-export default {
+const redisCache = {
   config: {
     redis: {
       host: process.env.REDIS_HOST,
@@ -17,3 +17,5 @@ export default {
   },
   driver: 'redis',
 } as ICacheConfig;
+
+export default redisCache;
