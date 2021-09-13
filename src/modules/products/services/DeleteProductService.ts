@@ -9,7 +9,6 @@ interface IRequest {
 
 class DeleteProductService {
   async execute({ id }: IRequest): Promise<void> {
-    const redisCache = new RedisCache();
     const productsRepository = getRepository(Product);
 
     const product = await productsRepository.findOne(id);
@@ -18,7 +17,7 @@ class DeleteProductService {
       throw new AppError('Product does not exists!');
     }
 
-    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     await productsRepository.remove(product);
   }

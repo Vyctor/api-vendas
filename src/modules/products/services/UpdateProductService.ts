@@ -13,7 +13,6 @@ interface IRequest {
 
 class UpdateProductService {
   async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
-    const redisCache = new RedisCache();
     const productsRepository = getCustomRepository(ProductsRepository);
 
     const product = await productsRepository.findOne({ id });
@@ -35,7 +34,7 @@ class UpdateProductService {
       quantity,
     });
 
-    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     await productsRepository.save(product);
 

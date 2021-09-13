@@ -7,15 +7,13 @@ class ListProductService {
   async execute(): Promise<Product[]> {
     const productsRepository = getCustomRepository(ProductsRepository);
 
-    const redisCache = new RedisCache();
-
-    let products = await redisCache.recover<Product[]>(
+    let products = await RedisCache.recover<Product[]>(
       'api-vendas-PRODUCT_LIST',
     );
 
     if (!products) {
       products = await productsRepository.find();
-      await redisCache.save('api-vendas-PRODUCT_LIST', products);
+      await RedisCache.save('api-vendas-PRODUCT_LIST', products);
     }
 
     return products;
