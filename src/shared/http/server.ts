@@ -1,13 +1,15 @@
 import 'reflect-metadata';
-import express, { Request, Response } from 'express';
+import 'dotenv/config';
+
+import express, { NextFunction, Request, Response } from 'express';
 import { pagination } from 'typeorm-pagination';
 import { errors } from 'celebrate';
 import 'express-async-errors';
 import cors from 'cors';
+
 import routes from './routes';
 import AppError from '../errors/AppError';
 import '@shared/typeorm';
-import { NextFunction } from 'connect';
 import upload from '@config/upload';
 
 const app = express();
@@ -35,7 +37,7 @@ app.use(
   },
 );
 
-app.listen(3333, () => {
+app.listen(process.env.APP_API_PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Server is running');
 });
