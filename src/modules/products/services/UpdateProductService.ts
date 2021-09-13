@@ -1,8 +1,10 @@
-import Product from '../infra/typeorm/entities/Product';
 import { getCustomRepository } from 'typeorm';
-import AppError from '@shared/errors/AppError';
-import ProductsRepository from '../infra/typeorm/repositories/ProductsRepository';
+
 import RedisCache from '@shared/cache/RedisCache';
+import AppError from '@shared/errors/AppError';
+
+import Product from '../infra/typeorm/entities/Product';
+import ProductsRepository from '../infra/typeorm/repositories/ProductsRepository';
 
 interface IRequest {
   id: string;
@@ -21,8 +23,7 @@ class UpdateProductService {
       throw new AppError('Product does not exists!');
     }
 
-    const replaceNameAlreadyUsedByAnotherProduct =
-      await productsRepository.findByName(name);
+    const replaceNameAlreadyUsedByAnotherProduct = await productsRepository.findByName(name);
 
     if (replaceNameAlreadyUsedByAnotherProduct) {
       throw new AppError('There is already one product with this name!');

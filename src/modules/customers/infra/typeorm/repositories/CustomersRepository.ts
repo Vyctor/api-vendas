@@ -1,5 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Repository, getRepository } from 'typeorm';
+import { PaginationAwareObject } from 'typeorm-pagination/dist/helpers/pagination';
 
 import ICreateCustomer from '@modules/customers/domain/models/ICreateCustomer';
 import ICustomer from '@modules/customers/domain/models/ICustomer';
@@ -46,6 +47,14 @@ class CustomersRepository implements ICustomersRepository {
   public async save(customer: ICustomer): Promise<ICustomer> {
     const user = await this.ormRepository.save(customer);
     return user;
+  }
+
+  public async delete(customer: ICustomer): Promise<void> {
+    await this.ormRepository.remove(customer);
+  }
+
+  public async returnPaginated(): Promise<PaginationAwareObject> {
+    return this.ormRepository.createQueryBuilder().paginate();
   }
 }
 

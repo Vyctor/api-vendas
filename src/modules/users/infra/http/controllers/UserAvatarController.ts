@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
-import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import { classToClass } from 'class-transformer';
+import { Request, Response } from 'express';
+
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 
 class UserAvatarController {
   public async update(request: Request, response: Response): Promise<Response> {

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import ResetPasswordService from '@modules/users/services/ResetPasswordService';
 
 class ResetPasswordController {

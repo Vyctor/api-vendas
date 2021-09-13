@@ -1,6 +1,8 @@
-import Product from '../infra/typeorm/entities/Product';
 import { getRepository } from 'typeorm';
+
 import AppError from '@shared/errors/AppError';
+
+import Product from '../infra/typeorm/entities/Product';
 
 interface IRequest {
   id: string;

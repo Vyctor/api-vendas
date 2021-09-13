@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
+
 import HandlebarsMailTemplate from './HandlebarsMailTemplate';
+
 interface IMailContact {
   name: string;
   email: string;
@@ -22,12 +24,7 @@ interface ISendMail {
 }
 
 class EtherealMail {
-  static async sendMail({
-    to,
-    from,
-    subject,
-    templateData,
-  }: ISendMail): Promise<void> {
+  static async sendMail({ to, from, subject, templateData }: ISendMail): Promise<void> {
     const handlebarMailTemplate = new HandlebarsMailTemplate();
     const account = await nodemailer.createTestAccount();
     const transporter = nodemailer.createTransport({

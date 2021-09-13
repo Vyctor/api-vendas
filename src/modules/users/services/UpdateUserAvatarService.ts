@@ -1,10 +1,12 @@
-import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
+
+import upload from '@config/upload';
+import AppError from '@shared/errors/AppError';
+import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
+import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
+
 import User from '../infra/typeorm/entities/User';
 import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
-import upload from '@config/upload';
-import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 
 interface IRequest {
   userId: string;

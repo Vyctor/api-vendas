@@ -1,7 +1,8 @@
-import auth from '@config/auth';
-import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+
+import auth from '@config/auth';
+import AppError from '@shared/errors/AppError';
 
 interface ITokenPayload {
   iat: number;
@@ -9,11 +10,7 @@ interface ITokenPayload {
   sub: string;
 }
 
-function isAuthenticated(
-  request: Request,
-  response: Response,
-  nextFunction: NextFunction,
-): void {
+function isAuthenticated(request: Request, response: Response, nextFunction: NextFunction): void {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {

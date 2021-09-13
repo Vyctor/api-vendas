@@ -1,5 +1,6 @@
-import nodemailer from 'nodemailer';
 import aws from 'aws-sdk';
+import nodemailer from 'nodemailer';
+
 import HandlebarsMailTemplate from './HandlebarsMailTemplate';
 import mail from './mail';
 
@@ -25,12 +26,7 @@ interface ISendMail {
 }
 
 class SESMail {
-  static async sendMail({
-    to,
-    from,
-    subject,
-    templateData,
-  }: ISendMail): Promise<void> {
+  static async sendMail({ to, from, subject, templateData }: ISendMail): Promise<void> {
     const handlebarMailTemplate = new HandlebarsMailTemplate();
 
     const transporter = nodemailer.createTransport({

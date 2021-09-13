@@ -1,8 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-import upload from '@config/upload';
 import aws, { S3 } from 'aws-sdk';
+import fs from 'fs';
 import mime from 'mime';
+import path from 'path';
+
+import upload from '@config/upload';
 
 class S3StorageProvider {
   private client: S3;
