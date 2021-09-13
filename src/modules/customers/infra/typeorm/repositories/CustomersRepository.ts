@@ -1,3 +1,4 @@
+import { injectable } from 'tsyringe';
 import { Repository, getRepository } from 'typeorm';
 
 import ICreateCustomer from '@modules/customers/domain/models/ICreateCustomer';
@@ -6,6 +7,7 @@ import ICustomer from '@modules/customers/domain/models/ICustomer';
 import ICustomersRepository from '../../../domain/repositories/ICustomersRepository';
 import Customer from '../entities/Customer';
 
+@injectable()
 class CustomersRepository implements ICustomersRepository {
   private ormRepository: Repository<Customer>;
 
