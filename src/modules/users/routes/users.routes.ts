@@ -10,7 +10,7 @@ const usersRouter = Router();
 const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 
-const uploadMulter = multer(upload);
+const uploadMulter = multer(upload.multer);
 
 usersRouter.get('/', isAuthenticated, usersController.index);
 
