@@ -2,59 +2,49 @@ import { injectable } from 'tsyringe';
 import { Repository, getRepository } from 'typeorm';
 import { PaginationAwareObject } from 'typeorm-pagination/dist/helpers/pagination';
 
-import ICreateCustomer from '@modules/customers/domain/models/ICreateCustomer';
-import ICustomer from '@modules/customers/domain/models/ICustomer';
+import ICreateCustomerDTO from '@modules/customers/dtos/ICreateCustomerDTO';
+import IPaginatedCustomers from '@modules/customers/dtos/IPaginatedCustomers';
 
-import ICustomersRepository from '../../../domain/repositories/ICustomersRepository';
+import ICustomersRepository from '../../../repositories/ICustomersRepository';
 import Customer from '../entities/Customer';
 
 @injectable()
 class CustomersRepository implements ICustomersRepository {
-  private ormRepository: Repository<Customer>;
+  private repository: Repository<Customer>;
 
   constructor() {
-    this.ormRepository = getRepository(Customer);
+    this.repository = getRepository(Customer);
   }
 
-  public async findByName(name: string): Promise<Customer | undefined> {
-    const customer = await this.ormRepository.findOne({
-      where: { name },
-    });
-
+  async create({ name, email }: ICreateCustomerDTO): Promise<Customer> {
+    const customer = this.repository.create({ name, email });
+    await this.repository.save(customer);
     return customer;
   }
 
-  public async findById(id: string): Promise<Customer | undefined> {
-    const customer = await this.ormRepository.findOne({ id });
-
+  async update(customer: Customer): Promise<Customer> {
+    await this.repository.save(customer);
     return customer;
   }
 
-  public async findByEmail(email: string): Promise<Customer | undefined> {
-    const customer = await this.ormRepository.findOne({
-      where: { email },
-    });
-
-    return customer;
+  async findByName(name: string): Promise<Customer> {
+    return this.repository.findOne({ name });
   }
 
-  public async create({ name, email }: ICreateCustomer): Promise<ICustomer> {
-    const user = this.ormRepository.create({ name, email });
-    await this.ormRepository.save(user);
-    return user;
+  async findById(id: string): Promise<Customer> {
+    return this.repository.findOne({ id });
   }
 
-  public async save(customer: ICustomer): Promise<ICustomer> {
-    const user = await this.ormRepository.save(customer);
-    return user;
+  async findByEmail(email: string): Promise<Customer> {
+    return this.repository.findOne({ email });
   }
 
-  public async delete(customer: ICustomer): Promise<void> {
-    await this.ormRepository.remove(customer);
+  async deleteById(customerId: string): Promise<void> {
+    await this.repository.delete(customerId);
   }
 
-  public async returnPaginated(): Promise<PaginationAwareObject> {
-    return this.ormRepository.createQueryBuilder().paginate();
+  async listCustomers(): Promise<PaginationAwareObject> {
+    return this.repository.createQueryBuilder().paginate();
   }
 }
 
