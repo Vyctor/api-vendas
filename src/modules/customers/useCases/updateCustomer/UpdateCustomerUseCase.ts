@@ -1,4 +1,4 @@
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
@@ -9,7 +9,7 @@ interface IRequest {
   name: string;
   email: string;
 }
-
+@injectable()
 class UpdateCustomerUseCase {
   constructor(
     @inject('CustomersRepository')
@@ -25,7 +25,7 @@ class UpdateCustomerUseCase {
 
     const customerUpdateEmail = await this.customersRepository.findByEmail(email);
 
-    if (customerUpdateEmail && customerUpdateEmail.email !== email) {
+    if (customerUpdateEmail && customerUpdateEmail.id !== customer.id) {
       throw new AppError('There is already a user using this e-mail.');
     }
 

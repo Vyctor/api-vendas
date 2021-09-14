@@ -1,6 +1,3 @@
-import { PaginationAwareObject } from 'typeorm-pagination/dist/helpers/pagination';
-
-import IPaginatedCustomers from '@modules/customers/dtos/IPaginatedCustomers';
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 
 import ICreateCustomerDTO from '../dtos/ICreateCustomerDTO';
@@ -12,7 +9,7 @@ interface ICustomersRepository {
   findById(id: string): Promise<Customer>;
   findByEmail(email: string): Promise<Customer>;
   deleteById(customerId: string): Promise<void>;
-  listCustomers(): Promise<PaginationAwareObject | IPaginatedCustomers>;
+  listCustomers(): Promise<Customer[]>;
 }
 
 export default ICustomersRepository;

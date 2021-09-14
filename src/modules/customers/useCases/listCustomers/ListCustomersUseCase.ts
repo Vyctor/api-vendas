@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { PaginationAwareObject } from 'typeorm-pagination/dist/helpers/pagination';
 
+import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
 
 @injectable()
@@ -10,8 +10,8 @@ class ListCustomersUseCase {
     private readonly customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute(): Promise<PaginationAwareObject> {
-    const customers = (await this.customersRepository.listCustomers()) as PaginationAwareObject;
+  public async execute(): Promise<Customer[]> {
+    const customers = await this.customersRepository.listCustomers();
 
     return customers;
   }
