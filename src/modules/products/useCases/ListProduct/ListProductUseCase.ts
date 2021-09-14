@@ -5,7 +5,7 @@ import RedisCache from '@shared/cache/RedisCache';
 
 import Product from '../infra/typeorm/entities/Product';
 
-class ListProductService {
+class ListProductUseCase {
   async execute(): Promise<Product[]> {
     const productsRepository = getCustomRepository(ProductsRepository);
 
@@ -20,4 +20,4 @@ class ListProductService {
   }
 }
 
-export default ListProductService;
+export default ListProductUseCase;

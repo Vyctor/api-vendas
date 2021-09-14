@@ -7,7 +7,7 @@ import Product from '../infra/typeorm/entities/Product';
 interface IRequest {
   id: string;
 }
-class ShowProductService {
+class ShowProductUseCase {
   async execute({ id }: IRequest): Promise<Product> {
     const productsRepository = getRepository(Product);
 
@@ -21,4 +21,4 @@ class ShowProductService {
   }
 }
 
-export default ShowProductService;
+export default ShowProductUseCase;

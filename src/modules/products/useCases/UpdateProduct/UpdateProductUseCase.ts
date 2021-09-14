@@ -13,7 +13,7 @@ interface IRequest {
   quantity: number;
 }
 
-class UpdateProductService {
+class UpdateProductUseCase {
   async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
 
@@ -43,4 +43,4 @@ class UpdateProductService {
   }
 }
 
-export default UpdateProductService;
+export default UpdateProductUseCase;
