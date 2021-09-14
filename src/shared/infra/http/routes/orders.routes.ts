@@ -3,10 +3,13 @@ import { Router } from 'express';
 
 import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
-import OrdersController from '../controllers/OrdersController';
+import CreateOrderController from '../../../../modules/orders/useCases/CreateOrder/CreateOrderController';
+import ShowOrderController from '../../../../modules/orders/useCases/ShowOrder/ShowOrderController';
 
 const ordersRouter = Router();
-const ordersController = new OrdersController();
+
+const createOrderController = new CreateOrderController();
+const showOrderController = new ShowOrderController();
 
 ordersRouter.use(isAuthenticated);
 
@@ -17,7 +20,7 @@ ordersRouter.get(
       id: Joi.string().uuid().required(),
     },
   }),
-  ordersController.show,
+  showOrderController.handle,
 );
 
 ordersRouter.post(
@@ -28,7 +31,7 @@ ordersRouter.post(
       products: Joi.required(),
     },
   }),
-  ordersController.create,
+  createOrderController.handle,
 );
 
 export default ordersRouter;
