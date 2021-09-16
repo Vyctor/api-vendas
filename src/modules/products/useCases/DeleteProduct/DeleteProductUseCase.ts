@@ -1,19 +1,22 @@
-import { getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 
-import Product from '../infra/typeorm/entities/Product';
+import IProductsRepository from '../../repositories/IProductsRepository';
 
 interface IRequest {
   id: string;
 }
 
+@injectable()
 class DeleteProductUseCase {
+  constructor(
+    @inject('ProductsRepository')
+    private readonly productsRepository: IProductsRepository,
+  ) {}
   async execute({ id }: IRequest): Promise<void> {
-    const productsRepository = getRepository(Product);
-
-    const product = await productsRepository.findOne(id);
+    const product = await this.productsRepository.findById(id);
 
     if (!product) {
       throw new AppError('Product does not exists!');
@@ -21,7 +24,7 @@ class DeleteProductUseCase {
 
     await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
-    await productsRepository.remove(product);
+    await this.productsRepository.deleteById(product.id);
   }
 }
 

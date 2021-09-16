@@ -1,17 +1,22 @@
-import { getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
+import Product from '@modules/products/infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 
-import Product from '../infra/typeorm/entities/Product';
+import IProductsRepository from '../../repositories/IProductsRepository';
 
 interface IRequest {
   id: string;
 }
+@injectable()
 class ShowProductUseCase {
-  async execute({ id }: IRequest): Promise<Product> {
-    const productsRepository = getRepository(Product);
+  constructor(
+    @inject('ProductsRepository')
+    private readonly productsRepository: IProductsRepository,
+  ) {}
 
-    const product = await productsRepository.findOne(id);
+  async execute({ id }: IRequest): Promise<Product> {
+    const product = await this.productsRepository.findById(id);
 
     if (!product) {
       throw new AppError('Product does not exists!');

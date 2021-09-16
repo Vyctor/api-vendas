@@ -1,5 +1,4 @@
 import ICreateCustomer from '@modules/customers/dtos/ICreateCustomerDTO';
-import IPaginatedCustomers from '@modules/customers/dtos/IPaginatedCustomers';
 import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 
 import ICustomersRepository from '../ICustomersRepository';
@@ -43,17 +42,8 @@ class InMemoryCustomersRepository implements ICustomersRepository {
     this.customers.filter((customer) => customer.id !== customerId);
   }
 
-  async listCustomers(): Promise<IPaginatedCustomers> {
-    return {
-      from: 0,
-      to: 0,
-      per_page: this.customers.length,
-      total: this.customers.length,
-      current_page: 1,
-      prev_page: null,
-      next_page: null,
-      data: this.customers,
-    };
+  async listCustomers(): Promise<Customer[]> {
+    return this.customers;
   }
 }
 

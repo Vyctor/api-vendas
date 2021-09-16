@@ -1,10 +1,10 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
+import Product from '@modules/products/infra/typeorm/entities/Product';
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 
-import Product from '../infra/typeorm/entities/Product';
-import ProductsRepository from '../infra/typeorm/repositories/ProductsRepository';
+import IProductsRepository from '../../repositories/IProductsRepository';
 
 interface IRequest {
   id: string;
@@ -13,17 +13,21 @@ interface IRequest {
   quantity: number;
 }
 
+@injectable()
 class UpdateProductUseCase {
-  async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
-    const productsRepository = getCustomRepository(ProductsRepository);
+  constructor(
+    @inject('ProductsRepository')
+    private readonly productsRepository: IProductsRepository,
+  ) {}
 
-    const product = await productsRepository.findOne({ id });
+  async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
+    const product = await this.productsRepository.findById(id);
 
     if (!product) {
       throw new AppError('Product does not exists!');
     }
 
-    const replaceNameAlreadyUsedByAnotherProduct = await productsRepository.findByName(name);
+    const replaceNameAlreadyUsedByAnotherProduct = await this.productsRepository.findByName(name);
 
     if (replaceNameAlreadyUsedByAnotherProduct) {
       throw new AppError('There is already one product with this name!');
@@ -37,7 +41,7 @@ class UpdateProductUseCase {
 
     await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
-    await productsRepository.save(product);
+    await this.productsRepository.update(product);
 
     return product;
   }
