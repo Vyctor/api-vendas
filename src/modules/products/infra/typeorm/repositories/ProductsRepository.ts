@@ -1,14 +1,17 @@
-import { EntityRepository, In, Repository } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 
+import IProductsRepository from '../../../repositories/IProductsRepository';
 import Product from '../entities/Product';
 
-interface IFindProducts {
-  id: string;
-}
-@EntityRepository(Product)
-class ProductsRepository extends Repository<Product> {
-  async findByName(name: string): Promise<Product | undefined> {
-    const product = this.findOne({
+class ProductsRepository implements IProductsRepository {
+  private repository: Repository<Product>;
+
+  constructor() {
+    this.repository = getRepository(Product);
+  }
+
+  async findByName(name: string): Promise<Product> {
+    const product = this.repository.findOne({
       where: {
         name,
       },
@@ -16,12 +19,10 @@ class ProductsRepository extends Repository<Product> {
 
     return product;
   }
-  async findAllByIds(products: IFindProducts[]): Promise<Product[]> {
-    const productsIds = products.map((product) => product.id);
-
-    const existsProducts = await this.find({
+  async findAllByIds(productsId: string[]): Promise<Product[]> {
+    const existsProducts = await this.repository.find({
       where: {
-        id: In(productsIds),
+        id: In(productsId),
       },
     });
 
