@@ -1,6 +1,5 @@
 import { Router } from 'express';
 
-import productsRouter from '@modules/products/infra/http/routes/products.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
@@ -8,6 +7,7 @@ import usersRouter from '@modules/users/infra/http/routes/users.routes';
 
 import customersRouter from './customers.routes';
 import ordersRouter from './orders.routes';
+import productsRouter from './products.routes';
 
 const routes = Router();
 
