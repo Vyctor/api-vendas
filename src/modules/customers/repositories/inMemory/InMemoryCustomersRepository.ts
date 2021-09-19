@@ -4,7 +4,7 @@ import Customer from '@modules/customers/infra/typeorm/entities/Customer';
 import ICustomersRepository from '../ICustomersRepository';
 
 class InMemoryCustomersRepository implements ICustomersRepository {
-  customers: Array<Customer> = [];
+  private customers: Array<Customer> = [];
 
   async create({ name, email }: ICreateCustomer): Promise<Customer> {
     const customer = new Customer();

@@ -1,13 +1,25 @@
+import IUpdateProductStockDTO from '@modules/orders/dtos/IUpdateProductStockDTO';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 
+import ICreateProductDTO from '../../dtos/ICreateProductDTO';
 import IProductsRepository from '../IProductsRepository';
 
 class InMemoryProductsRepository implements IProductsRepository {
-  products: Array<Product> = [];
+  private products: Array<Product> = [];
 
-  async create(data: Product): Promise<Product> {
-    throw new Error('Method not implemented.');
+  async create({ name, price, quantity }: ICreateProductDTO): Promise<Product> {
+    const product = new Product();
+
+    Object.assign(product, {
+      name,
+      price,
+      quantity,
+    });
+
+    this.products.push(product);
+
+    return product;
   }
 
   async update(data: Product): Promise<Product> {
@@ -34,6 +46,14 @@ class InMemoryProductsRepository implements IProductsRepository {
     this.products[productIndex] = product;
 
     return product;
+  }
+
+  async updateProductStock(products: IUpdateProductStockDTO[]): Promise<void> {
+    products.forEach((updatedProduct) => {
+      const productIndex = this.products.findIndex((product) => product.id === updatedProduct.id);
+
+      this.products[productIndex].quantity = updatedProduct.quantity;
+    });
   }
 
   async listProducts(): Promise<Product[]> {

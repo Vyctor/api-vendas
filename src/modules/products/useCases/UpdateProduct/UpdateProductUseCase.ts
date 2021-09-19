@@ -4,14 +4,8 @@ import Product from '@modules/products/infra/typeorm/entities/Product';
 import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 
+import IUpdateProductDTO from '../../dtos/IUpdateProductDTO';
 import IProductsRepository from '../../repositories/IProductsRepository';
-
-interface IRequest {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
 
 @injectable()
 class UpdateProductUseCase {
@@ -20,7 +14,7 @@ class UpdateProductUseCase {
     private readonly productsRepository: IProductsRepository,
   ) {}
 
-  async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
+  async execute({ id, name, price, quantity }: IUpdateProductDTO): Promise<Product> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {

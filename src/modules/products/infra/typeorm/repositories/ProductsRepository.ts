@@ -1,9 +1,12 @@
+import { injectable } from 'tsyringe';
 import { getRepository, In, Repository } from 'typeorm';
 
 import IUpdateProductStockDTO from '../../../../orders/dtos/IUpdateProductStockDTO';
+import ICreateProductDTO from '../../../dtos/ICreateProductDTO';
 import IProductsRepository from '../../../repositories/IProductsRepository';
 import Product from '../entities/Product';
 
+@injectable()
 class ProductsRepository implements IProductsRepository {
   private repository: Repository<Product>;
 
@@ -11,13 +14,18 @@ class ProductsRepository implements IProductsRepository {
     this.repository = getRepository(Product);
   }
 
-  async create(data: Product): Promise<Product> {
-    const product = this.repository.create(data);
+  async create({ name, price, quantity }: ICreateProductDTO): Promise<Product> {
+    const product = this.repository.create({
+      name,
+      price,
+      quantity,
+    });
+
     return this.repository.save(product);
   }
 
-  async update(data: Product): Promise<Product> {
-    return this.repository.save(data);
+  async update(updatedProduct: Product): Promise<Product> {
+    return this.repository.save(updatedProduct);
   }
 
   async updateProductStock(products: IUpdateProductStockDTO[]): Promise<void> {

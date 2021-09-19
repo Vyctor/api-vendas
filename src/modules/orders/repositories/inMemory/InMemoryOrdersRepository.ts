@@ -3,7 +3,7 @@ import Order from '@modules/orders/infra/typeorm/entities/Order';
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 
 class InMemoryOrdersRepository implements IOrdersRepository {
-  orders: Array<Order> = [];
+  private orders: Array<Order> = [];
 
   async findById(id: string): Promise<Order> {
     return this.orders.find((order) => order.id === id);
