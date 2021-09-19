@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
 import Order from '@modules/orders/infra/typeorm/entities/Order';
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
+import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import AppError from '@shared/errors/AppError';
 
 interface IProduct {
@@ -33,7 +34,7 @@ class CreateOrderUseCase {
       throw new AppError('Customer does not exists!');
     }
 
-    const existsProducts = await this.productsRepository.findAllByIds(products);
+    const existsProducts = await this.productsRepository.findAllByIds(products.map((product) => product.id));
 
     if (!existsProducts.length) {
       throw new AppError('Could not find any products with the given ids!');
@@ -73,7 +74,7 @@ class CreateOrderUseCase {
       quantity: existsProducts.filter((p) => p.id === orderProduct.product_id)[0].quantity - orderProduct.quantity,
     }));
 
-    await this.productsRepository.save(updatedProductQuantity);
+    await this.productsRepository.updateProductStock(updatedProductQuantity);
 
     return order;
   }

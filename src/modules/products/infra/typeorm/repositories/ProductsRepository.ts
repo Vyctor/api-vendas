@@ -1,5 +1,6 @@
 import { getRepository, In, Repository } from 'typeorm';
 
+import IUpdateProductStockDTO from '../../../../orders/dtos/IUpdateProductStockDTO';
 import IProductsRepository from '../../../repositories/IProductsRepository';
 import Product from '../entities/Product';
 
@@ -17,6 +18,10 @@ class ProductsRepository implements IProductsRepository {
 
   async update(data: Product): Promise<Product> {
     return this.repository.save(data);
+  }
+
+  async updateProductStock(products: IUpdateProductStockDTO[]): Promise<void> {
+    await this.repository.save(products);
   }
 
   async listProducts(): Promise<Product[]> {
