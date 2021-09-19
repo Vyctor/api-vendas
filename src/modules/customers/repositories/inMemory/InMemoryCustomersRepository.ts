@@ -6,11 +6,12 @@ import ICustomersRepository from '../ICustomersRepository';
 class InMemoryCustomersRepository implements ICustomersRepository {
   customers: Array<Customer> = [];
 
-  async create(data: ICreateCustomer): Promise<Customer> {
+  async create({ name, email }: ICreateCustomer): Promise<Customer> {
     const customer = new Customer();
 
     Object.assign(customer, {
-      data,
+      name,
+      email,
     });
 
     this.customers.push(customer);
