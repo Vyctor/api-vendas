@@ -3,18 +3,20 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import uploadConfig from '@config/upload';
+import CreateUserController from '@modules/users/useCases/CreateUser/CreateUserController';
 import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
-import UserAvatarController from '../controllers/UserAvatarController';
-import UsersController from '../controllers/UsersController';
+import ShowAllUsersController from '../../../../modules/users/useCases/ShowAllUsers/ShowAllUsersController';
+import UpdateUserAvatarController from '../../../../modules/users/useCases/UpdateUserAvatar/UpdateUseAvatarController';
 
 const usersRouter = Router();
-const usersController = new UsersController();
-const userAvatarController = new UserAvatarController();
+const createUserController = new CreateUserController();
+const showAllUsersController = new ShowAllUsersController();
+const updateUserAvatarController = new UpdateUserAvatarController();
 
 const uploadMulter = multer(uploadConfig.multer);
 
-usersRouter.get('/', isAuthenticated, usersController.index);
+usersRouter.get('/', isAuthenticated, showAllUsersController.handle);
 
 usersRouter.post(
   '/',
@@ -25,9 +27,9 @@ usersRouter.post(
       password: Joi.string().required(),
     },
   }),
-  usersController.create,
+  createUserController.handle,
 );
 
-usersRouter.patch('/avatar', isAuthenticated, uploadMulter.single('avatar'), userAvatarController.update);
+usersRouter.patch('/avatar', isAuthenticated, uploadMulter.single('avatar'), updateUserAvatarController.handle);
 
 export default usersRouter;

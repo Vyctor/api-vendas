@@ -3,14 +3,17 @@ import { Router } from 'express';
 
 import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
-import ProfileController from '../controllers/ProfileController';
+import ShowProfileController from '../../../../modules/users/useCases/ShowProfile/ShowProfileController';
+import UpdateProfileController from '../../../../modules/users/useCases/UpdateProfile/UpdateProfileController';
 
 const profileRouter = Router();
-const profileController = new ProfileController();
+const showProfileController = new ShowProfileController();
+const updateProfileController = new UpdateProfileController();
 
 profileRouter.use(isAuthenticated);
 
-profileRouter.get('/', profileController.show);
+profileRouter.get('/', showProfileController.handle);
+
 profileRouter.put(
   '/',
   celebrate({
@@ -25,7 +28,7 @@ profileRouter.put(
       }),
     },
   }),
-  profileController.update,
+  updateProfileController.handle,
 );
 
 export default profileRouter;

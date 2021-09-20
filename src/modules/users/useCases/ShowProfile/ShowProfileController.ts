@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import ShowProfileUseCase from './ShowProfileUseCase';
 
-class ProfileController {
+class ShowProfileController {
   public async handle(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
 
@@ -16,4 +16,4 @@ class ProfileController {
   }
 }
 
-export default ProfileController;
+export default ShowProfileController;

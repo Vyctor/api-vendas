@@ -2,10 +2,10 @@ import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import ListAllUsersUseCase from './ListAllUsersUseCase';
+import ListAllUsersUseCase from './ShowAllUsersUseCase';
 
-class UsersController {
-  public async index(request: Request, response: Response): Promise<Response> {
+class ShowAllUsersController {
+  public async handle(request: Request, response: Response): Promise<Response> {
     const listAllUsersUseCase = container.resolve(ListAllUsersUseCase);
 
     const users = await listAllUsersUseCase.execute();
@@ -14,4 +14,4 @@ class UsersController {
   }
 }
 
-export default UsersController;
+export default ShowAllUsersController;

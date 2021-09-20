@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 import ResetPasswordUseCase from './ResetPasswordUseCase';
 
 class ResetPasswordController {
-  public async create(request: Request, response: Response): Promise<Response> {
+  public async handle(request: Request, response: Response): Promise<Response> {
     const { password, token } = request.body;
 
     const resetPasswordUseCase = container.resolve(ResetPasswordUseCase);
