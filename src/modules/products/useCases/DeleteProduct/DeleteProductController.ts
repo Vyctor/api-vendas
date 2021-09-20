@@ -9,7 +9,7 @@ export class DeleteProductController {
 
     const deleteProductUseCase = container.resolve(DeleteProductUseCase);
 
-    await deleteProductUseCase.execute({ id });
+    await deleteProductUseCase.execute(id);
 
     return response.send();
   }

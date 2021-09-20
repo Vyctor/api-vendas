@@ -5,9 +5,6 @@ import AppError from '@shared/errors/AppError';
 
 import IProductsRepository from '../../repositories/IProductsRepository';
 
-interface IRequest {
-  id: string;
-}
 @injectable()
 class ShowProductUseCase {
   constructor(
@@ -15,7 +12,7 @@ class ShowProductUseCase {
     private readonly productsRepository: IProductsRepository,
   ) {}
 
-  async execute({ id }: IRequest): Promise<Product> {
+  async execute(id: string): Promise<Product> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {

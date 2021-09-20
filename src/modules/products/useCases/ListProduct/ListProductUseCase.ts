@@ -16,7 +16,7 @@ class ListProductUseCase {
     let products = await RedisCache.recover<Product[]>('api-vendas-PRODUCT_LIST');
 
     if (!products) {
-      products = await this.productsRepository.listProducts();
+      products = await this.productsRepository.showAllProducts();
       await RedisCache.save('api-vendas-PRODUCT_LIST', products);
     }
 

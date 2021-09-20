@@ -5,17 +5,13 @@ import AppError from '@shared/errors/AppError';
 
 import IProductsRepository from '../../repositories/IProductsRepository';
 
-interface IRequest {
-  id: string;
-}
-
 @injectable()
 class DeleteProductUseCase {
   constructor(
     @inject('ProductsRepository')
     private readonly productsRepository: IProductsRepository,
   ) {}
-  async execute({ id }: IRequest): Promise<void> {
+  async execute(id: string): Promise<void> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {

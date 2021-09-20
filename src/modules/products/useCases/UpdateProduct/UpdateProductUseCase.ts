@@ -35,7 +35,7 @@ class UpdateProductUseCase {
 
     await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
-    await this.productsRepository.update(product);
+    await this.productsRepository.save(product);
 
     return product;
   }
