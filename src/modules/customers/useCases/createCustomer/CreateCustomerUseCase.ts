@@ -20,10 +20,12 @@ class CreateCustomerUseCase {
       throw new AppError('E-mail address already exists in our database!');
     }
 
-    const customer = await this.customersRepository.create({
+    const customer = this.customersRepository.create({
       name,
       email,
     });
+
+    await this.customersRepository.save(customer);
 
     return customer;
   }

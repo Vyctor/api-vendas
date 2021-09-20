@@ -14,15 +14,21 @@ class CustomersRepository implements ICustomersRepository {
     this.repository = getRepository(Customer);
   }
 
-  async create({ name, email }: ICreateCustomerDTO): Promise<Customer> {
-    const customer = this.repository.create({ name, email });
+  create({ name, email }: ICreateCustomerDTO): Customer {
+    return this.repository.create({ name, email });
+  }
+
+  async save(customer: Customer): Promise<void> {
     await this.repository.save(customer);
-    return customer;
   }
 
   async update(customer: Customer): Promise<Customer> {
     await this.repository.save(customer);
     return customer;
+  }
+
+  async showAllCustomers(): Promise<Customer[]> {
+    return this.repository.find();
   }
 
   async findByName(name: string): Promise<Customer> {
@@ -39,10 +45,6 @@ class CustomersRepository implements ICustomersRepository {
 
   async deleteById(customerId: string): Promise<void> {
     await this.repository.delete(customerId);
-  }
-
-  async listCustomers(): Promise<Customer[]> {
-    return this.repository.find();
   }
 }
 

@@ -11,7 +11,7 @@ class ListCustomersUseCase {
   ) {}
 
   public async execute(): Promise<Customer[]> {
-    const customers = await this.customersRepository.listCustomers();
+    const customers = await this.customersRepository.showAllCustomers();
 
     return customers;
   }
