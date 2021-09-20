@@ -1,14 +1,14 @@
 import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
-import CreateUserService from '@modules/users/services/CreateUserService';
-import ListAllUsersService from '@modules/users/services/ListAllUsersService';
+import ListAllUsersUseCase from './ListAllUsersUseCase';
 
 class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const listAllUsersService = new ListAllUsersService();
+    const listAllUsersUseCase = container.resolve(ListAllUsersUseCase);
 
-    const users = await listAllUsersService.execute();
+    const users = await listAllUsersUseCase.execute();
 
     return response.json(classToClass(users));
   }

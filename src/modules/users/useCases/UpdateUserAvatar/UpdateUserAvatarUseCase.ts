@@ -1,23 +1,23 @@
-import { getCustomRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
 import uploadConfig from '@config/upload';
+import User from '@modules/users/infra/typeorm/entities/User';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
 import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 
-import User from '../infra/typeorm/entities/User';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import IUpdateUserAvatarDTO from '../../dtos/IUpdateUserAvatarDTO';
 
-interface IRequest {
-  userId: string;
-  avatarFilename: string;
-}
+@injectable()
+class UpdateUserAvatarUseCase {
+  constructor(
+    @inject('UsersRepository')
+    private readonly usersRepository: IUsersRepository,
+  ) {}
 
-class UpdateUserAvatarService {
-  public async execute({ userId, avatarFilename }: IRequest): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const user = await usersRepository.findById(userId);
+  public async execute({ userId, avatarFilename }: IUpdateUserAvatarDTO): Promise<User> {
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new AppError('User does not exists!');
@@ -45,10 +45,10 @@ class UpdateUserAvatarService {
       user.avatar = filename;
     }
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
 
     return user;
   }
 }
 
-export default UpdateUserAvatarService;
+export default UpdateUserAvatarUseCase;

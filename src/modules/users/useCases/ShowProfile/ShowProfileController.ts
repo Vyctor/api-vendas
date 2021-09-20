@@ -1,16 +1,16 @@
 import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
 
-import ShowProfileService from '@modules/users/services/ShowProfileService';
-import UpdateProfileService from '@modules/users/services/UpdateProfileService';
+import ShowProfileUseCase from './ShowProfileUseCase';
 
 class ProfileController {
-  public async show(request: Request, response: Response): Promise<Response> {
+  public async handle(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
 
-    const showProfileService = new ShowProfileService();
+    const showProfileUseCase = getRepository(ShowProfileUseCase);
 
-    const user = await showProfileService.execute({ user_id });
+    const user = await showProfileUseCase.execute({ user_id });
 
     return response.json(classToClass(user));
   }
