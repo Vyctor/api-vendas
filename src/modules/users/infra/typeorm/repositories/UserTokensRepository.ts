@@ -1,11 +1,19 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { injectable } from 'tsyringe';
+import { Repository, getRepository } from 'typeorm';
 
+import IUserTokensRepository from '../../../repositories/IUserTokensRepository';
 import UserToken from '../entities/UserToken';
 
-@EntityRepository(UserToken)
-class UserTokensRepository extends Repository<UserToken> {
-  public async findByToken(token: string): Promise<UserToken | undefined> {
-    const userToken = await this.findOne({
+@injectable()
+class UserTokensRepository implements IUserTokensRepository {
+  private repository: Repository<UserToken>;
+
+  constructor() {
+    this.repository = getRepository(UserToken);
+  }
+
+  public async findByToken(token: string): Promise<UserToken> {
+    const userToken = await this.repository.findOne({
       where: { token },
     });
 
@@ -13,11 +21,11 @@ class UserTokensRepository extends Repository<UserToken> {
   }
 
   public async generate(user_id: string): Promise<UserToken> {
-    const userToken = this.create({
+    const userToken = this.repository.create({
       user_id,
     });
 
-    await this.save(userToken);
+    await this.repository.save(userToken);
 
     return userToken;
   }
