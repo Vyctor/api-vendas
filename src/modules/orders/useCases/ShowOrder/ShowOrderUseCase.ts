@@ -4,10 +4,6 @@ import Order from '@modules/orders/infra/typeorm/entities/Order';
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import AppError from '@shared/errors/AppError';
 
-interface IRequest {
-  id: string;
-}
-
 @injectable()
 class ShowOrderUseCase {
   constructor(
@@ -15,7 +11,7 @@ class ShowOrderUseCase {
     private readonly ordersRepository: IOrdersRepository,
   ) {}
 
-  async execute({ id }: IRequest): Promise<Order> {
+  async execute(id: string): Promise<Order> {
     const order = await this.ordersRepository.findById(id);
 
     if (!order) {

@@ -22,13 +22,13 @@ class CreateOrderUseCase {
     @inject('OrdersRepository')
     private readonly ordersRepository: IOrdersRepository,
     @inject('CustomersRepository')
-    private readonly customersRepostory: ICustomersRepository,
+    private readonly customersRepository: ICustomersRepository,
     @inject('productsRepository')
     private readonly productsRepository: IProductsRepository,
   ) {}
 
   async execute({ customer_id, products }: IRequest): Promise<Order> {
-    const customerExists = await this.customersRepostory.findById(customer_id);
+    const customerExists = await this.customersRepository.findById(customer_id);
 
     if (!customerExists) {
       throw new AppError('Customer does not exists!');
@@ -62,10 +62,12 @@ class CreateOrderUseCase {
       price: existsProducts.filter((p) => p.id === product.id)[0].price,
     }));
 
-    const order = await this.ordersRepository.createOrder({
+    const order = this.ordersRepository.create({
       customer: customerExists,
       products: serializedProducts,
     });
+
+    await this.ordersRepository.save(order);
 
     const { order_products } = order;
 

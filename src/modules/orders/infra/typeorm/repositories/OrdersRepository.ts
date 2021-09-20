@@ -14,21 +14,21 @@ class OrdersRepository implements IOrdersRepository {
     this.repository = getRepository(Order);
   }
 
+  public create({ customer, products }: ICreateOrder): Order {
+    return this.repository.create({
+      customer,
+      order_products: products,
+    });
+  }
+
+  public async save(order: Order): Promise<void> {
+    await this.repository.save(order);
+  }
+
   async findById(id: string): Promise<Order> {
     const order = this.repository.findOne(id, {
       relations: ['order_products', 'customer'],
     });
-
-    return order;
-  }
-
-  public async createOrder({ customer, products }: ICreateOrder): Promise<Order> {
-    const order = this.repository.create({
-      customer,
-      order_products: products,
-    });
-
-    await this.repository.save(order);
 
     return order;
   }
