@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import mail from '@config/mail/mail';
 import SESMail from '@config/mail/SESMail';
@@ -8,6 +8,7 @@ import IUserTokensRepository from '@modules/users/repositories/IUserTokensReposi
 import IMailProvider from '@shared/container/providers/MailProvider/IMailProvider';
 import AppError from '@shared/errors/AppError';
 
+@injectable()
 class SendForgotPasswordEmailUseCase {
   constructor(
     @inject('EtherealMailProvider')

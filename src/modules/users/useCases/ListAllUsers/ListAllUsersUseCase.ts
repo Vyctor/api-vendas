@@ -11,7 +11,7 @@ class ListAllUsersUseCase {
   ) {}
 
   public async execute(): Promise<User[]> {
-    return this.usersRepository.listAll();
+    return this.usersRepository.showAllUsers();
   }
 }
 

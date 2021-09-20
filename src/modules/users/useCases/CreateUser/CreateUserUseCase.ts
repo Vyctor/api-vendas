@@ -22,11 +22,15 @@ class CreateUserUseCase {
 
     const hashedPassword = await hash(password, 8);
 
-    return this.usersRepository.create({
+    const user = this.usersRepository.create({
       name,
       email,
       password: hashedPassword,
     });
+
+    await this.usersRepository.save(user);
+
+    return user;
   }
 }
 
