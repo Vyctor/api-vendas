@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   apivendas-db:
-    build: .docker/postgres
+    image: postgres
     container_name: apivendas-db
     restart: always
     tty: true
@@ -28,7 +28,7 @@ services:
       - apivendas-redis
 
   apivendas-redis:
-    image: 'bitnami/redis:latest'
+    image: 'bitnami/redis'
     container_name: apivendas-redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
