@@ -1,7 +1,10 @@
-FROM node:14.15.4-alpine3.12
+FROM node:latest
 
-RUN apk add --no-cache bash
+WORKDIR /home/app
 
-USER node
+COPY . .
 
-WORKDIR /home/node/app
+RUN npm install
+
+EXPOSE 3333
+
